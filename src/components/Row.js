@@ -24,16 +24,14 @@ function Row(props) {
     const stitchesArray = []
 
     for (let i = 0; i <= testRow.length -1; i++) {
-        stitchesArray.push([i + 1, testRow[i]]);
+        stitchesArray.push([i + 1, testRow[i], '0']);
       }
-
-    console.log(stitchesArray)
     
     
     return (
         <div className='Row'>
             {stitchesArray.map((stitch) => (
-                <Stitch stitch={stitch[1]} stitchNumber={stitch[0]}/>
+                <Stitch stitch={stitch[1]} stitchNumber={stitch[0]} stitchStatus={stitch[2]}/>
             ))}
     
         </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Row from './Row';
 
 function Pattern() {
     const rows = [
@@ -12,11 +13,10 @@ function Pattern() {
 
 
 
-
     return (
         <>
         {rows.map((row) => (
-            <Row row={row} key={rowNumber} />
+            <Row rowInfo={row} />
         ))}
         </>
     );
