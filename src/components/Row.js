@@ -2,13 +2,15 @@ import React, {useState, useEffect} from 'react'
 import Stitch from './Stitch'
 
 
-function Row() {
+function Row(props) {
+
+    const {rowInfo} = props
 
     //I need row information to be passed in here somehow from above
     //then I can have the row get passed in and let the array below just be that
     //that way when it gets passed into the state it should work
-
-    let testRow = ['sc','sc','inc','sc','sc','sc']
+    //['sc','sc','inc','sc','sc','sc']
+    let testRow = rowInfo
 
     const [stitches, setNewStitches] = useState(testRow)
 
@@ -29,7 +31,7 @@ function Row() {
     
     
     return (
-        <div>
+        <div className='Row'>
             {stitchesArray.map((stitch) => (
                 <Stitch stitch={stitch[1]} stitchNumber={stitch[0]}/>
             ))}
