@@ -6,6 +6,24 @@
   display: flex;
 }
 
+.incomplete {
+  background-color: lightcoral;
+  display: flex;
+  justify-content: center;
+  width: auto;
+  height: auto;
+}
+
+.complete {
+  background-color: greenyellow;
+  display: flex;
+  justify-content: center;
+  width: auto;
+  height: auto;
+}
+ul {
+  list-style-type: none;
+ }
 
 
 .App-logo {

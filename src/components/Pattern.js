@@ -4,20 +4,20 @@ import Row from './Row';
 
 const pattern = [
   [
-  { id: 0, stitchType: 'Single Crochet', complete: false },
-  { id: 1, stitchType: 'Single Crochet', complete: false },
-  { id: 2, stitchType: 'Single Crochet', complete: false},
-  { id: 3, stitchType: 'Single Crochet', complete: false },
-  { id: 4, stitchType: 'Single Crochet', complete: false },
-  { id: 5, stitchType: 'Single Crochet', complete: false},
+  { id: 0, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+  { id: 1, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+  { id: 2, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false},
+  { id: 3, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+  { id: 4, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+  { id: 5, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false},
     ],
     [
-  { id: 0, stitchType: 'Increase', complete: false },
-  { id: 1, stitchType: 'Increase', complete: false },
-  { id: 2, stitchType: 'Increase', complete: false},
-  { id: 3, stitchType: 'Increase', complete: false },
-  { id: 4, stitchType: 'Increase', complete: false },
-  { id: 5, stitchType: 'Increase', complete: false},
+  { id: 0, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+  { id: 1, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+  { id: 2, stitchType: 'Increase', rowCount: 0, value: 1, complete: false},
+  { id: 3, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+  { id: 4, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+  { id: 5, stitchType: 'Increase', rowCount: 0, value: 1, complete: false},
     ],
   
 ];
@@ -32,19 +32,20 @@ export default function Pattern() {
     setFirstRow(firstRow.map(stitch => {
       if (stitch.id === stitchId) {
         // Create a *new* object with changes
-        return { ...stitch, complete: nextComplete };
+        return { ...stitch, complete: nextComplete, rowCount: nextComplete ? 1 : 0 };
       } else {
         // No changes
         return stitch;
       }
     }));
+
   }
 
   function handleToggleSecondRow(stitchId, nextComplete) {
     setSecondRow(secondRow.map(stitch => {
       if (stitch.id === stitchId) {
         // Create a *new* object with changes
-        return { ...stitch, complete: nextComplete };
+        return { ...stitch, complete: nextComplete, rowCount: nextComplete ? 1 : 0  };
       } else {
         // No changes
         return stitch;
@@ -58,11 +59,14 @@ export default function Pattern() {
       <h2>First Row:</h2>
       <Row
         stitches={firstRow}
-        onToggle={handleToggleFirstRow} />
+        onToggle={handleToggleFirstRow}
+        />
+
       <h2>Second Row:</h2>
       <Row
         stitches={secondRow}
-        onToggle={handleToggleSecondRow} />
+        onToggle={handleToggleSecondRow}
+         />
     </>
   );
 }
