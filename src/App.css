@@ -2,9 +2,18 @@
   text-align: center;
 }
 
-.Row {
+.row {
   display: flex;
+  flex-direction: row;
 }
+
+.stitchlist {
+  display: flex;
+  overflow: scroll;
+  width: 75%;
+  height: 100px;
+}
+
 
 .incomplete {
   background-color: lightcoral;

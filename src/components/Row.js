@@ -14,29 +14,29 @@ function Row(props) {
         rowValue += stitches[i].rowCount
     }
 
-    if(rowValue == rowLength){
+    if(rowValue === rowLength){
         rowComplete = true
     }
 
-    console.log(rowComplete)
     return (
         <>
-      <ul>
+      <ul className='stitchlist'>
         {stitches.map(stitch => (
           <li key={stitch.id}>
             <label>
               <input type="checkbox" checked={stitch.complete} onChange={e => {
                   onToggle(
+                
                     stitch.id,
                     e.target.checked
+                    
                   );
 
                   
                 }}
               />
               {stitch.stitchType} {" "}
-              {stitch.rowCount} {" "}
-              {stitch.value}
+           
               
             </label>
           </li>
@@ -44,7 +44,7 @@ function Row(props) {
         )}
       </ul>
    
-       <div className={`Row ${rowComplete ? "complete" : "incomplete"}`}>  {rowValue} / {rowLength} </div>
+       <div className={`${rowComplete ? "complete" : "incomplete"}`}>  {rowValue} / {rowLength} </div>
      </>
     );
 }
