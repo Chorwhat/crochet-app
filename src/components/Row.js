@@ -22,8 +22,9 @@ function Row(props) {
         <>
       <ul className='stitchlist'>
         {stitches.map(stitch => (
+          <label>
           <li key={stitch.id}>
-            <label>
+            
               <input type="checkbox" checked={stitch.complete} onChange={e => {
                   onToggle(
                 
@@ -38,8 +39,9 @@ function Row(props) {
               {stitch.stitchType} {" "}
            
               
-            </label>
+            
           </li>
+          </label>
         )
         )}
       </ul>

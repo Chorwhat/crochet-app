@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+body{
+  background-color: aqua;
+}
+
 .row {
   display: flex;
   flex-direction: row;
@@ -9,11 +13,33 @@
 
 .stitchlist {
   display: flex;
-  overflow: scroll;
+  overflow: hidden;
   width: 75%;
   height: 100px;
+  justify-content: space-around;
+}
+.stitchlist:hover{
+  overflow-x: scroll;
+}
+.stitchlist::-webkit-scrollbar {
+  width: 10px;
+  background-color: #f5f5f5;
 }
 
+.stitchlist::-webkit-scrollbar-thumb {
+  background-color: #000000;
+}
+
+li {
+  display: inline-block; /* display the list items as inline blocks */
+  width: auto; /* set the width of each list item to its natural width */
+  margin: 0 10px; /* add some space between the list items */
+  font-size: 30px; /* make the font size larger */
+}
+
+label {
+  cursor: pointer; /* change the cursor to a pointer when hovering over the label */
+}
 
 .incomplete {
   background-color: lightcoral;
