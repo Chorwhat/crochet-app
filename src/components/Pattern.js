@@ -1,115 +1,117 @@
 import { useState } from 'react';
 import Row from './Row';
 
-
-
-
-function createPatternFromString(inputString) {
-    // Split the input string into an array of substrings at each comma
-    let subarrays = inputString.split(",");
+function parseInput(input) {
+    // Split the input string on the "|" character, if it exists
+    const parts = input.split("|");
   
-    // Loop through the subarrays and split each one by the | character
-    for (let i = 0; i < subarrays.length; i++) {
-      subarrays[i] = subarrays[i].split("|");
+    // Initialize the result array
+    const result = [];
   
-      // Use the map() method to transform each element in the subarray
-      // into an array of objects with the property "stitchType"
-      subarrays[i] = subarrays[i].map(str => {
-        let parts = str.split("x");
-        let stitchType = parts[0];
-        let number = parts[1];
+    // Loop through each part
+    for (const part of parts) {
+      // Split the part on commas to get a list of patterns
+      const patterns = part.split(",");
   
-        // Create an array of objects with the properties of stitches
-        let objects = [];
-        for (let j = 0; j < number; j++) {
-          let value = 0
+      // Initialize the sub-array for this part
+      const subArray = [];
   
-          if (stitchType === 'inc' || stitchType === 'scir'){
-            value = 1
-          }
-          else if(stitchType === "dec"){
-            value = -1
-          }
-          
-          objects.push({
-            id: j,
-            stitchType: stitchType,
-            rowCount: 0,
-            value: value,
-            complete: false
-          });
+      // Loop through each pattern
+      for (const pattern of patterns) {
+        // Split the pattern on the "" character, if it exists
+        const [base, count] = pattern.split("*");
+  
+        // Convert the count string to a number, or default to 1 if no count is specified
+        const repeatCount = count ? parseInt(count, 10) : 1;
+  
+        // Add the base pattern to the sub-array the specified number of times
+        for (let i = 0; i < repeatCount; i++) {
+  
+            let value = 0
+    
+            if (base === 'a' || base === 'b'){
+              value = 1
+            }
+            else if(base === "dec"){
+              value = -1
+            }
+          subArray.push({ stitchType: base,
+          complete: false,
+          value: value });
         }
-        return objects;
-        
-      });
+      }
+  
+      // Add the sub-array to the result array
+      result.push(subArray);
     }
   
-    let spreadOut = [].concat(...subarrays);
-    return spreadOut;
+    // Return the final result array
+    return result;
   }
   
-let inputString = "scirx6,incx3,decx5,scx20,incx6";
-let outputArray = createPatternFromString(inputString);
+  
+let inputString = "scir*6,in*3,(sc,in)*3";
+let outputArray = parseInput(inputString);
 
 
 
 
 //sc*6, inc*6, sc*6
 
-// const initialPattern = [[
-//     { id: 0, stitchType: 'Single Crochet (in first)', rowCount: 0, value:1, complete: false },
-//     { id: 1, stitchType: 'Single Crochet (in first)', rowCount: 0, value: 1, complete: false },
-//     { id: 2, stitchType: 'Single Crochet (in first)', rowCount: 0, value: 1, complete: false },
-//     { id: 3, stitchType: 'Single Crochet (in first)', rowCount: 0, value: 1, complete: false },
-//     { id: 4, stitchType: 'Single Crochet (in first)', rowCount: 0, value: 1, complete: false },
-//     { id: 5, stitchType: 'Single Crochet (in first)', rowCount: 0, value: 1, complete: false },
-// ],
-// [
-//     { id: 0, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 1, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 2, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 3, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 4, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 5, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-// ],
-// [
-//     { id: 0, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 1, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 2, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 3, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 4, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 5, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 6, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 7, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 8, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 9, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 10, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 11, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 12, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 13, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 14, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 15, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 16, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 17, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 18, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 19, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 20, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 21, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 22, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
-//     { id: 23, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+const initialPattern = [[
+    { id: 0, stitchType: 'Single Crochet (in first)', rowCount: 0, value:1, complete: false },
+    { id: 1, stitchType: 'Single Crochet (in first)', rowCount: 0, value: 1, complete: false },
+    { id: 2, stitchType: 'Single Crochet (in first)', rowCount: 0, value: 1, complete: false },
+    { id: 3, stitchType: 'Single Crochet (in first)', rowCount: 0, value: 1, complete: false },
+    { id: 4, stitchType: 'Single Crochet (in first)', rowCount: 0, value: 1, complete: false },
+    { id: 5, stitchType: 'Single Crochet (in first)', rowCount: 0, value: 1, complete: false },
+],
+[
+    { id: 0, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 1, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 2, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 3, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 4, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 5, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+],
+[
+    { id: 0, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 1, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 2, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 3, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 4, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 5, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 6, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 7, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 8, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 9, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 10, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 11, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 12, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 13, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 14, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 15, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 16, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 17, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 18, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 19, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 20, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 21, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 22, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 23, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
 
-// ],
-// [
-//     { id: 0, stitchType: 'Decrease', rowCount: 0, value: -1, complete: false },
-//     { id: 1, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 2, stitchType: 'Decrease', rowCount: 0, value: -1, complete: false },
-//     { id: 3, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-//     { id: 4, stitchType: 'Decrease', rowCount: 0, value: -1, complete: false },
-//     { id: 5, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
-// ]
-// ]
+],
+[
+    { id: 0, stitchType: 'Decrease', rowCount: 0, value: -1, complete: false },
+    { id: 1, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 2, stitchType: 'Decrease', rowCount: 0, value: -1, complete: false },
+    { id: 3, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 4, stitchType: 'Decrease', rowCount: 0, value: -1, complete: false },
+    { id: 5, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+]
+]
 
-const initialPattern = outputArray
+//const initialPattern = outputArray
 
 
 function createToggleRow(pattern, setPattern, row) {
