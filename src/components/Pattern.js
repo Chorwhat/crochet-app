@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Row from './Row';
+import RowEditor from './RowEditor';
 
 function parseInput(input) {
     // Split the input string on the "|" character, if it exists
@@ -54,8 +55,6 @@ let inputString = "scir*6,in*3,(sc,in)*3";
 let outputArray = parseInput(inputString);
 
 
-
-
 //sc*6, inc*6, sc*6
 
 const initialPattern = [[
@@ -99,6 +98,18 @@ const initialPattern = [[
     { id: 21, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
     { id: 22, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
     { id: 23, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 24, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 25, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 26, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 27, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 28, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 29, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 30, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 31, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 32, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 33, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
+    { id: 34, stitchType: 'Increase', rowCount: 0, value: 1, complete: false },
+    { id: 35, stitchType: 'Single Crochet', rowCount: 0, value: 0, complete: false },
 
 ],
 [
@@ -139,31 +150,62 @@ function createToggleRow(pattern, setPattern, row) {
 
 //Need to understand whats going on here better
 //specifically what is acc
+//I think i need to make this into a state in the object that I can add to, that way I can have values when I add new rows
+//from row Editor
 const values = initialPattern.reduce((acc, row) => {
     
     const sum = row.reduce((sum, obj) => sum + obj.value, 0);
     return [...acc, sum + (acc[acc.length - 1] || 0)];
   }, []);
+
+
+const createRow = (data) => {
+
+  const row = []
+  for (let i = 0; i < data.count; i++){
+
+    let stitchValue = 0
+    if(data.stitchType === "inc"){
+      stitchValue = 1
+    } else if (data.stitchType === "dec"){
+      stitchValue = -1
+    }
+
+    row.push( {complete: false , id: i,  rowCount: 0, stitchType: data.stitchType, value: stitchValue })
+  }
+
+  return row
+}
   
+
   
 
 export default function Pattern() {
     const [pattern, setPattern] = useState(initialPattern);
+    const [valueArray, setValueArray] = useState(values)
+
+    const onRowAdd = (data) => {
+      
+      const row = createRow(data)
+      console.log(row)
+      const sum = row.reduce((sum, obj) => sum + obj.value, 0)
+      setValueArray([...valueArray, sum + (valueArray[valueArray.length-1] || 0)])
+      setPattern([...pattern, row])
+    }
+
 
     return (
         <>
             <h1>Crochet Pattern</h1>
 
+            <RowEditor key="rowEditor" onSubmit={onRowAdd}/>
             
-            
-        
             {pattern.map((row, index) => {
 
-              console.log(row)
               const toggleRow = createToggleRow(pattern, setPattern, row);
               // toggleRow = function(stitchId, nextComplete);
               
-              return <div className='row'><h2>Row {index + 1} ({values[index]})</h2><Row 
+              return <div className='row'><h2>Row{index + 1}({valueArray[index]})</h2><Row 
               key={index}
               stitches={row}
               onToggle={toggleRow}

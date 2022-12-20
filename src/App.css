@@ -16,7 +16,7 @@ body{
   overflow: hidden;
   width: 75%;
   height: 100px;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 .stitchlist:hover{
   overflow-x: scroll;
@@ -34,7 +34,7 @@ li {
   display: inline-block; /* display the list items as inline blocks */
   width: auto; /* set the width of each list item to its natural width */
   margin: 0 10px; /* add some space between the list items */
-  font-size: 30px; /* make the font size larger */
+  font-size: 12px; /* make the font size larger */
 }
 
 label {
