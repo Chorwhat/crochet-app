@@ -183,22 +183,34 @@ const createRow = (data) => {
 export default function Pattern() {
     const [pattern, setPattern] = useState(initialPattern);
     const [valueArray, setValueArray] = useState(values)
+    const [tempRow, setTempRow] = useState([])
 
     const onRowAdd = (data) => {
       
       const row = createRow(data)
-      console.log(row)
       const sum = row.reduce((sum, obj) => sum + obj.value, 0)
       setValueArray([...valueArray, sum + (valueArray[valueArray.length-1] || 0)])
       setPattern([...pattern, row])
     }
 
+    const onTempAdd = (data) => {
+      const row = createRow(data)
+      console.log(row)
+      setTempRow([...tempRow, row])
+  
+    }
+
+    
+    const tempStitches = tempRow.map(obj => obj.stitchType);
+    const temp = tempStitches.join(', ');
+    console.log(temp)
 
     return (
         <>
             <h1>Crochet Pattern</h1>
 
-            <RowEditor key="rowEditor" onSubmit={onRowAdd}/>
+            <RowEditor key="rowEditor" onAddToRows={onRowAdd} onAddToTemp={onTempAdd}/>
+            <p>Temp Row: </p>
             
             {pattern.map((row, index) => {
 

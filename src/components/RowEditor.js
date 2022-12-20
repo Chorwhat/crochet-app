@@ -2,7 +2,7 @@ import React,{useRef, useState} from "react";
 import { stitchTypes, stitchValues } from "../Constants"
 
 export default function RowEditor(props) {
-    const {onSubmit} = props
+    const {onAddToRows, onAddToTemp} = props
     
     const formRef = useRef()
     const [data, setData] = useState({stitchType: 'sc', count: 0, value: 0})
@@ -11,8 +11,12 @@ export default function RowEditor(props) {
         setData({...data, [event.target.name]: event.target.value})
     }
 
-    const handleSubmit = () => {
-        onSubmit(data)
+    const handleAddRows = () => {
+        onAddToRows(data)
+    }
+
+    const handleAddTemp = () => {
+        onAddToTemp(data)
     }
 
     return (
@@ -24,7 +28,8 @@ export default function RowEditor(props) {
             </select>
             
             <input  onChange={handleChange} type="number" name="count" value={data.count} />
-            <button type="button" onClick={handleSubmit}>Add Row</button>
+            <button type="button" onClick={handleAddTemp}>Add to Temp</button>
+            <button type="button" onClick={handleAddRows}>Add Temp to Row</button>
         </form>
     )
 }
