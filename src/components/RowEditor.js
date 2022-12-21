@@ -1,5 +1,5 @@
 import React,{useRef, useState} from "react";
-import { stitchTypes, stitchValues } from "../Constants"
+import { stitchTypes } from "../Constants"
 
 export default function RowEditor(props) {
     const {onAddToRows, onAddToTemp} = props
@@ -22,6 +22,8 @@ export default function RowEditor(props) {
 
     return (
         <form ref={formRef}> 
+
+            
             <select onChange={handleChange} name="stitchType" id="">
                 {Object.keys(stitchTypes).map(stitch => (
                     <option value={stitch}>{stitch}</option>

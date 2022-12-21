@@ -202,6 +202,7 @@ export default function Pattern() {
     // }
 
     const onRowAdd = () => {
+      setIsFirst(false)
       let flat = [...tempRow].flat()
 
       //go through the array and reassign unique id's
@@ -210,7 +211,7 @@ export default function Pattern() {
         item.id = counter
         counter += 1
       }
-
+      console.log(flat)
       const sum = flat.reduce((sum, obj) => sum + obj.value, 0)
       console.log(sum)
       setValueArray([...valueArray, sum + (valueArray[valueArray.length-1] || 0)])
@@ -221,16 +222,19 @@ export default function Pattern() {
 
     const onTempAdd = (data) => {
       const row = createRow(data, isFirst)
-      setIsFirst(false)
-      console.log(row)
-
       const tempString =  row.map(object => object.stitchType).join(', ');
-      console.log(tempString)
+
+
+      let values = tempString.split(",");
+      // Count the number of items in the array
+      let numValues = values.length;
+      // Append the number of values to the first value in the array
+      let result = `${values[0]} * ${numValues}`;
+
       setTempRow([...tempRow, row])
-      setTempDisplay([...tempDisplay, tempString])
+      setTempDisplay([...tempDisplay, result + " , "])
   
     }
-    
 
 
     return (

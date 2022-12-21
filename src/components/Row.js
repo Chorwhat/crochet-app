@@ -18,6 +18,7 @@ function Row(props) {
         rowComplete = true
     }
 
+
     return (
         <>
       <ul className='stitchlist'>
@@ -51,4 +52,10 @@ function Row(props) {
     );
 }
 
+
+
 export default Row
+
+
+
+

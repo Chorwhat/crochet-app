@@ -6,8 +6,3 @@ export const stitchTypes = {
     'dec': 'dec'
   }
 
-export const stitchValues = {
-    'sc': 0,
-    'inc': 1,
-    'dec': -1,
-  }
