@@ -159,7 +159,8 @@ const values = initialPattern.reduce((acc, row) => {
   }, []);
 
 
-const createRow = (data) => {
+
+const createRow = (data, isFirst) => {
 
   const row = []
   for (let i = 0; i < data.count; i++){
@@ -170,6 +171,11 @@ const createRow = (data) => {
     } else if (data.stitchType === "dec"){
       stitchValue = -1
     }
+    else if (data.stitchType === "sc" && isFirst){
+      stitchValue = 1
+    }
+   
+   
 
     row.push( {complete: false , id: i,  rowCount: 0, stitchType: data.stitchType, value: stitchValue })
   }
@@ -181,36 +187,58 @@ const createRow = (data) => {
   
 
 export default function Pattern() {
-    const [pattern, setPattern] = useState(initialPattern);
-    const [valueArray, setValueArray] = useState(values)
+    const [pattern, setPattern] = useState([]);
+    const [valueArray, setValueArray] = useState([])
     const [tempRow, setTempRow] = useState([])
+    const [tempDisplay, setTempDisplay] = useState("")
+    const [isFirst, setIsFirst] = useState(true)
 
-    const onRowAdd = (data) => {
+    // const onRowAdd = (data) => {
       
-      const row = createRow(data)
-      const sum = row.reduce((sum, obj) => sum + obj.value, 0)
+    //   const row = createRow(data)
+    //   const sum = row.reduce((sum, obj) => sum + obj.value, 0)
+    //   setValueArray([...valueArray, sum + (valueArray[valueArray.length-1] || 0)])
+    //   setPattern([...pattern, row])
+    // }
+
+    const onRowAdd = () => {
+      let flat = [...tempRow].flat()
+
+      //go through the array and reassign unique id's
+      let counter = 0
+      for (const item of flat){
+        item.id = counter
+        counter += 1
+      }
+
+      const sum = flat.reduce((sum, obj) => sum + obj.value, 0)
+      console.log(sum)
       setValueArray([...valueArray, sum + (valueArray[valueArray.length-1] || 0)])
-      setPattern([...pattern, row])
+      setPattern([...pattern, flat])
+      setTempRow([])
+      setTempDisplay("")
     }
 
     const onTempAdd = (data) => {
-      const row = createRow(data)
+      const row = createRow(data, isFirst)
+      setIsFirst(false)
       console.log(row)
+
+      const tempString =  row.map(object => object.stitchType).join(', ');
+      console.log(tempString)
       setTempRow([...tempRow, row])
+      setTempDisplay([...tempDisplay, tempString])
   
     }
-
     
-    const tempStitches = tempRow.map(obj => obj.stitchType);
-    const temp = tempStitches.join(', ');
-    console.log(temp)
+
 
     return (
         <>
             <h1>Crochet Pattern</h1>
 
             <RowEditor key="rowEditor" onAddToRows={onRowAdd} onAddToTemp={onTempAdd}/>
-            <p>Temp Row: </p>
+            <p>Temp Row: {tempDisplay}</p>
             
             {pattern.map((row, index) => {
 
