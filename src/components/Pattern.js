@@ -127,11 +127,18 @@ const initialPattern = [[
 
 function createToggleRow(pattern, setPattern, row) {
  return function(stitchId, nextComplete) {
-  const newRow = row.map(stitch => {
-        if (stitch.id === stitchId) {
+  const indexOfStitchId = row.findIndex(stitch => stitch.id === stitchId);
+  const newRow = row.map((stitch,index) => {
+        if (index <= indexOfStitchId && !stitch.complete) {
             // Create a *new* object with changes
-            return { ...stitch, complete: nextComplete, rowCount: nextComplete ? 1 : 0 };
-        } else {
+            return { ...stitch, complete: true, rowCount: 1 };
+        } else if (stitch.id === stitchId){
+          return {...stitch, complete: !stitch.complete, rowCount: stitch.complete ? 0 : 1}
+        }
+        else if(index > indexOfStitchId){
+          return {...stitch,complete: false, rowCount: 0}
+        }
+         else {
             // No changes
             return stitch;
         }
