@@ -25,8 +25,18 @@ function Row(props) {
         {stitches.map(stitch => (
           <label>
           <li key={stitch.id}>
-              <input type="checkbox" checked={stitch.complete} onChange={onToggle(stitch.id)}/>
-              {stitch.stitchType} {" "} {stitch.id}
+            
+              <input type="checkbox" checked={stitch.complete} onChange={e => {
+                  onToggle(
+                    stitch.id,
+                  );
+                  
+                }}
+              />
+              {stitch.stitchType} {" "}
+           
+              
+            
           </li>
           </label>
         )
