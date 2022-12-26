@@ -126,7 +126,7 @@ const initialPattern = [[
 
 
 function createToggleRow(pattern, setPattern, row) {
- return function(stitchId, nextComplete) {
+ return function(stitchId) {
   const indexOfStitchId = row.findIndex(stitch => stitch.id === stitchId);
   const newRow = row.map((stitch,index) => {
         if (index <= indexOfStitchId && !stitch.complete) {
