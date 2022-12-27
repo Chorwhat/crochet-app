@@ -165,30 +165,34 @@ const values = initialPattern.reduce((acc, row) => {
     return [...acc, sum + (acc[acc.length - 1] || 0)];
   }, []);
 
+  const createRow = (data, isFirst) => {
 
-
-const createRow = (data, isFirst) => {
-
-  const row = []
-  for (let i = 0; i < data.count; i++){
-
-    let stitchValue = 0
-    if(data.stitchType === "inc"){
-      stitchValue = 1
-    } else if (data.stitchType === "dec"){
-      stitchValue = -1
+    const row = [];
+  
+    for (let i = 0; i < data.length; i++) {
+      const obj = data[i];
+      let stitchValue = 0;
+      if (obj.stitchType === "inc") {
+        stitchValue = 1;
+      } else if (obj.stitchType === "dec") {
+        stitchValue = -1;
+      } else if (obj.stitchType === "sc" && isFirst) {
+        stitchValue = 1;
+      }
+  
+      row.push({
+        complete: false,
+        id: obj.id,
+        rowCount: 0,
+        stitchType: obj.stitchType,
+        value: stitchValue,
+      });
     }
-    else if (data.stitchType === "sc" && isFirst){
-      stitchValue = 1
-    }
-   
-   
+  
+    return row;
+  };
+  
 
-    row.push( {complete: false , id: i,  rowCount: 0, stitchType: data.stitchType, value: stitchValue })
-  }
-
-  return row
-}
   
 
   
@@ -218,25 +222,25 @@ export default function Pattern() {
         item.id = counter
         counter += 1
       }
-      console.log(flat)
       const sum = flat.reduce((sum, obj) => sum + obj.value, 0)
-      console.log(sum)
       setValueArray([...valueArray, sum + (valueArray[valueArray.length-1] || 0)])
       setPattern([...pattern, flat])
       setTempRow([])
       setTempDisplay("")
     }
 
-    const onTempAdd = (data) => {
+    const onTempAdd = (data, result) => {
+  
       const row = createRow(data, isFirst)
+      
       const tempString =  row.map(object => object.stitchType).join(', ');
-
+     
 
       let values = tempString.split(",");
       // Count the number of items in the array
       let numValues = values.length;
       // Append the number of values to the first value in the array
-      let result = `${values[0]} * ${numValues}`;
+      //let result = `${values[0]} * ${numValues}`;
 
       setTempRow([...tempRow, row])
       setTempDisplay([...tempDisplay, result + " , "])
